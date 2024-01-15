@@ -1,6 +1,8 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import { Link, BrowserRouter, Route } from "react-router-dom";
 import { ProductList } from "./components/ProductList/ProductsList.component";
+import { ProductCrudControl } from "./components/ProductCrudControl/ProductCrudControl.component";
 import { Product } from "./model/model";
 
 const App: React.FC = () => {
@@ -23,7 +25,24 @@ const App: React.FC = () => {
 
     return (
         <div className="app-container">
-            <h2>Click the button to see the products</h2>
+            <h2>Click the button to create, edit, or delete the products:</h2>
+
+            <Link to="/product-crud-control">
+                <button>Manage Products Details</button>
+            </Link>
+
+            <BrowserRouter>
+                <Route
+                    path="/product-crud-control"
+                    element={<ProductCrudControl products={products} />}
+                ></Route>
+            </BrowserRouter>
+
+            {/* <Route
+                path="/product-crud-control"
+                element={<ProductCrudControl products={products} />}
+            ></Route> */}
+
             <ProductList products={products} />
         </div>
     );

@@ -11,18 +11,40 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/api/products", (_req: Request, res: Response) => {
+// Read from JSON file
+const readProducts = () => {
     try {
-        const productsRawData = fs.readFileSync(
-            "./api/db/products.json",
-            "utf-8"
-        );
-        const products = JSON.parse(productsRawData);
-
-        res.json(products);
+        const data = fs.readFileSync("./api/db/products.json", "utf-8");
+        return JSON.parse(data);
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        return [];
     }
+};
+
+// Write products to JSON file
+const writeProducts = (products: any[]) => {
+    fs.writeFileSync(
+        "./api/db/products.json",
+        JSON.stringify(products, null, 2),
+        "utf-8"
+    );
+};
+
+app.get("/api/products", (_req: Request, res: Response) => {
+    const products = readProducts();
+    res.json(products);
+});
+
+// Add product
+app.post("/api/products/add", (req: Request, res: Response) => {
+    const products = readProducts();
+    const newProduct = req.body;
+    newProduct.id = products.length + 1;
+    console.log("new Product:", newProduct);
+    products.push(newProduct);
+    writeProducts(products);
+    res.json(newProduct);
+    console.log("Products updated:", products);
 });
 
 app.listen(port, () => {
