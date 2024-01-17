@@ -5,12 +5,12 @@ import { Product } from "../../model/model";
 export const ProductCrudControl: React.FC<{ products: Product[] }> = ({
     products,
 }) => {
-    const [newProduct, setNewProduct] = useState<Product>({
-        id: 0,
-        manufacturer: "",
-        year: 0,
-        model: "",
-    });
+    // const [newProduct, setNewProduct] = useState<Product>({
+    //     id: 0,
+    //     manufacturer: "",
+    //     year: 0,
+    //     model: "",
+    // });
 
     const handleAddProduct = () => {
         // fetch("/api/products/add", {
@@ -38,7 +38,7 @@ export const ProductCrudControl: React.FC<{ products: Product[] }> = ({
 
     return (
         <div>
-            <div className="create-product">
+            {/* <div className="create-product">
                 <h2>Add New Product</h2>
                 <div>
                     <label>Manufacturer:</label>
@@ -80,7 +80,7 @@ export const ProductCrudControl: React.FC<{ products: Product[] }> = ({
                     />
                 </div>
                 <button onClick={handleAddProduct}>Add Product</button>
-            </div>
+            </div> */}
 
             <div className="edit-delete-products">
                 {products.map((product) => {

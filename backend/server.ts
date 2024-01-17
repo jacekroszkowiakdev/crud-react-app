@@ -10,6 +10,15 @@ const port = process.env.PORT;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+interface Product {
+    id: number;
+    manufacturer: string;
+    year: number;
+    model: string;
+}
 
 // Read from JSON file
 const readProducts = () => {
@@ -31,20 +40,38 @@ const writeProducts = (products: any[]) => {
 };
 
 app.get("/api/products", (_req: Request, res: Response) => {
-    const products = readProducts();
+    const products: Product[] = readProducts();
     res.json(products);
 });
 
 // Add product
 app.post("/api/products/add", (req: Request, res: Response) => {
-    const products = readProducts();
-    const newProduct = req.body;
-    newProduct.id = products.length + 1;
-    console.log("new Product:", newProduct);
+    let products: Product[] = [];
+    products = readProducts();
+    console.log("products arr:", products);
+    const newProduct = req.body.newProduct;
+    console.log("BODY new Product:", req.body.newProduct);
+
+    if (!newProduct) {
+        return res.status(400).json({
+            error: "Invalid data format. Missing newProduct in request body.",
+        });
+    }
+
+    // Assuming newProduct is an object with id, manufacturer, year, and model properties
+    // You may want to perform additional validation and processing here
+
     products.push(newProduct);
-    writeProducts(products);
-    res.json(newProduct);
-    console.log("Products updated:", products);
+    console.log("products arr updated", products);
+
+    res.status(201).json({ newProduct });
+    // const newProduct = req.body.newProduct;
+    // // newProduct.id = products.length + 1;
+    // console.log("new Product:", newProduct);
+    // products.push(newProduct);
+    // writeProducts(products);
+    // res.json(newProduct);
+    // console.log("Products updated:", products);
 });
 
 app.listen(port, () => {

@@ -18,7 +18,7 @@ export const ProductDetails: React.FC<ProductDetailProps> = ({
             <div className="product-card-content">
                 <h2>{product.manufacturer}</h2>
                 <p>
-                    {product.model} ({product.year})
+                    {product.model} {product.year}
                 </p>
                 <span>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
