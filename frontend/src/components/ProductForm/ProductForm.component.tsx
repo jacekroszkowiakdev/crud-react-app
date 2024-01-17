@@ -1,36 +1,41 @@
 import React, { FormEvent } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "../../model/model";
 import "./ProductForm.styles.css";
 
-export const ProductForm: React.FC<{ products: Product[] }> = ({
-    products,
+export const ProductForm: React.FC<{ productsDBPort: number }> = ({
+    productsDBPort,
 }) => {
     const [newProduct, setNewProduct] = useState<Product | object>({});
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                `http://localhost:${productsDBPort}/api/products`
+            );
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setProducts(data);
+            console.log("fetched data: ", data);
+        }
+        fetchData();
+    }, []);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const data = new FormData(e.currentTarget);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         setNewProduct((_prevProduct) => ({
-            id: "11",
+            id: (products.length + 1).toString(),
             manufacturer: data.get("manufacturer"),
             year: Number(data.get("year")),
             model: data.get("model"),
         }));
-
-        // const testUploadData: Product = {
-        //     id: "11",
-        //     manufacturer: "TEST_PAYLOAD",
-        //     year: 2022,
-        //     model: "TEST_PAYLOAD",
-        // };
-
-        // CLEAN UP AFTER THE WORK ON POST IS FINISHED:
-        console.log("data: ", data);
-        console.log("newProduct: ", JSON.stringify(newProduct));
-        console.log("products updated: ", products);
 
         try {
             const response = await fetch(

@@ -19,7 +19,7 @@ const App: React.FC = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            setProducts(data.products);
+            setProducts(data);
         }
         fetchData();
     }, []);
@@ -44,7 +44,9 @@ const App: React.FC = () => {
                     ></Route>
                     <Route
                         path="/product-form"
-                        element={<ProductForm products={products} />}
+                        element={
+                            <ProductForm productsDBPort={productsDBPort} />
+                        }
                     ></Route>
                 </Routes>
             </BrowserRouter>

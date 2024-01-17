@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import fs from "fs";
+import fs from "fs/promises";
 
 dotenv.config();
 const app = express();
@@ -20,58 +20,61 @@ interface Product {
     model: string;
 }
 
-// Read from JSON file
-const readProducts = () => {
+const readProducts: () => Promise<Product[]> = async () => {
     try {
-        const data = fs.readFileSync("./api/db/products.json", "utf-8");
-        return JSON.parse(data);
+        const data = await fs.readFile("./api/db/products.json", "utf-8");
+        console.log("File content:", data);
+        const jsonData = JSON.parse(data);
+        const products = jsonData.products as Product[];
+
+        return products;
     } catch (error) {
-        return [];
+        console.error("Error reading file:", error.message);
+        throw error;
     }
 };
 
-// Write products to JSON file
-const writeProducts = (products: any[]) => {
-    fs.writeFileSync(
-        "./api/db/products.json",
-        JSON.stringify(products, null, 2),
-        "utf-8"
-    );
+const writeProducts = async (data: Product[]) => {
+    try {
+        await fs.writeFile(
+            "./api/db/products.json",
+            JSON.stringify({ products: data })
+        );
+        console.log("Products have been successfully written to the file.");
+        console.log("Products updated:", JSON.stringify(data));
+    } catch (error) {
+        console.error("Error writing products to file:", error.message);
+        throw error;
+    }
 };
 
-app.get("/api/products", (_req: Request, res: Response) => {
-    const products: Product[] = readProducts();
+// get all existing products
+app.get("/api/products", async (_req: Request, res: Response) => {
+    const products: Product[] = await readProducts();
     res.json(products);
 });
 
 // Add product
-app.post("/api/products/add", (req: Request, res: Response) => {
-    let products: Product[] = [];
-    products = readProducts();
-    console.log("products arr:", products);
+app.post("/api/products/add", async (req: Request, res: Response) => {
+    let products: Product[] = await readProducts();
     const newProduct = req.body.newProduct;
+
     console.log("BODY new Product:", req.body.newProduct);
 
     if (!newProduct) {
         return res.status(400).json({
-            error: "Invalid data format. Missing newProduct in request body.",
+            error: "Invalid data format. Missing data in request body.",
         });
     }
-
-    // Assuming newProduct is an object with id, manufacturer, year, and model properties
-    // You may want to perform additional validation and processing here
-
     products.push(newProduct);
+
     console.log("products arr updated", products);
 
     res.status(201).json({ newProduct });
-    // const newProduct = req.body.newProduct;
-    // // newProduct.id = products.length + 1;
-    // console.log("new Product:", newProduct);
-    // products.push(newProduct);
-    // writeProducts(products);
+    writeProducts(products);
     // res.json(newProduct);
-    // console.log("Products updated:", products);
+
+    console.log("Products updated:", products);
 });
 
 app.listen(port, () => {
