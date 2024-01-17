@@ -1,6 +1,9 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProductList } from "./components/ProductList/ProductsList.component";
+import { ProductCrudControl } from "./components/ProductCrudControl/ProductCrudControl.component";
+import { ProductForm } from "./components/ProductForm/ProductForm.component";
 import { Product } from "./model/model";
 
 const App: React.FC = () => {
@@ -16,14 +19,38 @@ const App: React.FC = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            setProducts(data.products);
+            setProducts(data);
         }
         fetchData();
     }, []);
 
     return (
         <div className="app-container">
-            <h2>Click the button to see the products</h2>
+            <h2>Click the button to create, edit, or delete the products:</h2>
+
+            <BrowserRouter>
+                <Link to="/product-crud-control">
+                    <button>Manage Products Details</button>
+                </Link>
+
+                <Link to="/product-form">
+                    <button>Create and add to DB</button>
+                </Link>
+
+                <Routes>
+                    <Route
+                        path="/product-crud-control"
+                        element={<ProductCrudControl products={products} />}
+                    ></Route>
+                    <Route
+                        path="/product-form"
+                        element={
+                            <ProductForm productsDBPort={productsDBPort} />
+                        }
+                    ></Route>
+                </Routes>
+            </BrowserRouter>
+
             <ProductList products={products} />
         </div>
     );

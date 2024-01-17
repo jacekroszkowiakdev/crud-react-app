@@ -51,11 +51,9 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
     };
 
     const savedFavoriteProducts = localStorage.getItem("favorites");
-    console.log(savedFavoriteProducts);
 
     const handleShowFavorites = () => {
         setRenderFavorites(!renderFavorites);
-        console.log(renderFavorites);
     };
 
     function filterUniqueValues<T>(
