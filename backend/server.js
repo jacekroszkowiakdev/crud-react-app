@@ -1,12 +1,12 @@
 import { createServer } from "http";
 import { parse } from "url";
-import { readFile, writeFile } from "fs/promises";
+import fs from "fs/promises";
 
 const PORT = process.env.PORT || 3000;
 
 const readProducts = async () => {
     try {
-        const data = await readFile("./api/db/products.json", "utf-8");
+        const data = await fs.readFile("./api/db/products.json", "utf-8");
         const jsonData = JSON.parse(data);
         const products = jsonData.products;
 
@@ -25,7 +25,7 @@ const writeProducts = async (data) => {
     }
 
     try {
-        await writeFile(
+        await fs.writeFile(
             "./api/db/products.json",
             JSON.stringify({ products: data })
         );
@@ -37,6 +37,18 @@ const writeProducts = async (data) => {
 
 const server = createServer(async (req, res) => {
     const { pathname } = parse(req.url, true);
+    // Extract the request method and headers
+    const { method, headers } = req;
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    // CORS handling here:  checks if the incoming HTTP request has the method 'OPTIONS'. In CORS, an OPTIONS request is often sent by the browser as a preflight request before the actual request. The purpose of this preflight request is to ask the server whether the actual request (e.g., GET, POST) is permitted from the specified origin with the given headers and method
+    if (method === "OPTIONS") {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
 
     if (pathname === "/api/products" && req.method === "GET") {
         try {
@@ -72,7 +84,9 @@ const server = createServer(async (req, res) => {
                 products.push(newProduct);
                 await writeProducts(products);
 
-                res.writeHead(201, { "Content-Type": "application/json" });
+                res.writeHead(201, {
+                    "Content-Type": "application/json",
+                });
                 res.end(JSON.stringify({ newProduct }));
             });
         } catch (error) {
@@ -114,7 +128,7 @@ const server = createServer(async (req, res) => {
             products.splice(indexToDelete, 1);
             await writeProducts(products);
 
-            res.writeHead(200, { "Content-Type": "application/json" });
+            res.writeHead(200, { "Content-Type": "application/json", headers });
             res.end(
                 JSON.stringify({
                     message: `Product with ID ${idToDelete} has been successfully deleted.`,
