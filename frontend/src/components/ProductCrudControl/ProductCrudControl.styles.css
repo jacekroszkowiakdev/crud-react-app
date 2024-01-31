@@ -1,0 +1,74 @@
+.edit-delete-products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.product-card .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #d15f5f;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-card:hover {
+    background-color: #78aacc;
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-card-content {
+    text-align: center;
+}
+
+.addToFavorites-button {
+    margin-top: 10px;
+}
+
+.product-card.editing {
+    transform: scale(1.5) translate(-50%, -50%);
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.product-card.editing .user-input {
+    margin-top: 20px;
+}
+
+/* Styles for the close button in the editing state */
+.product-card.editing .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-card.editing .close-button:hover {
+    background-color: #d32f2f;
+}

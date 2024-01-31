@@ -1,4 +1,5 @@
 .product-display-options {
+    width: 70%;
     display: flex;
     flex-direction: row;
     margin: 10px 0;
@@ -21,4 +22,14 @@ select {
     align-items: center;
     justify-content: center;
     margin: 20px 0;
+}
+
+.favorites-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }

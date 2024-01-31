@@ -10,19 +10,24 @@ const App: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const productsDBPort = import.meta.env.VITE_PRODUCTS_BACKEND_SERVER_PORT;
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products`
-            );
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            setProducts(data);
+    async function fetchData() {
+        const response = await fetch(
+            `http://localhost:${productsDBPort}/api/products`
+        );
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        setProducts(data);
+    }
+
+    useEffect(() => {
         fetchData();
     }, []);
+
+    const updateProductList = () => {
+        fetchData();
+    };
 
     return (
         <div className="app-container">
@@ -40,12 +45,19 @@ const App: React.FC = () => {
                 <Routes>
                     <Route
                         path="/product-crud-control"
-                        element={<ProductCrudControl products={products} />}
+                        element={
+                            <ProductCrudControl
+                                productsDBPort={productsDBPort}
+                            />
+                        }
                     ></Route>
                     <Route
                         path="/product-form"
                         element={
-                            <ProductForm productsDBPort={productsDBPort} />
+                            <ProductForm
+                                productsDBPort={productsDBPort}
+                                updateProductList={updateProductList}
+                            />
                         }
                     ></Route>
                 </Routes>
@@ -55,5 +67,4 @@ const App: React.FC = () => {
         </div>
     );
 };
-
 export default App;

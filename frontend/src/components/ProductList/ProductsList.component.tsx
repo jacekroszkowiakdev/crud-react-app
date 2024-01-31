@@ -53,7 +53,9 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
     const savedFavoriteProducts = localStorage.getItem("favorites");
 
     const handleShowFavorites = () => {
-        setRenderFavorites(!renderFavorites);
+        if (favorites.length > 0) {
+            setRenderFavorites(!renderFavorites);
+        }
     };
 
     function filterUniqueValues<T>(
@@ -105,9 +107,9 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 <button onClick={handleSort}>sort products a - z</button>
 
                 {/*conditionally show favorites button: */}
-                {savedFavoriteProducts && (
+                {savedFavoriteProducts && favorites.length > 0 && (
                     <button onClick={handleShowFavorites}>
-                        show favorites
+                        Show Favorites
                     </button>
                 )}
 
@@ -165,6 +167,18 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 </label>
             </div>
 
+            {/* render the product stored in the favorites */}
+            <div className="favorites-container">
+                {renderFavorites &&
+                    favorites.map((product) => (
+                        <ProductDetails
+                            key={product.id}
+                            product={product}
+                            addToFavorites={addToFavorites}
+                        />
+                    ))}
+            </div>
+
             <div className="products-container">
                 {filtered.map((product) => {
                     return (
@@ -176,19 +190,6 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 })}
 
                 {sorted.map((product) => {
-                    return (
-                        <ProductDetails
-                            product={product}
-                            addToFavorites={addToFavorites}
-                        />
-                    );
-                })}
-            </div>
-
-            {/* render the product stored in the favorites */}
-
-            <div className="products-container">
-                {favorites.map((product) => {
                     return (
                         <ProductDetails
                             product={product}
