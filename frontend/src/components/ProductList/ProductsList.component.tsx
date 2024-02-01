@@ -12,9 +12,9 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
     const [uniqueModels, setUniqueModels] = useState<string[]>([]);
     const [uniqueYears, setUniqueYears] = useState<number[]>([]);
     const [sorted, setSorted] = useState<Product[]>([]);
-    const [filterProperty, setFilterProperty] = useState<"" | keyof Product>(
-        ""
-    );
+    const [selectedFilterProperty, setSelectedFilterProperty] = useState<
+        "" | keyof Product
+    >("");
     const [filtered, setFiltered] = useState<Product[]>([]);
     const [favorites, setFavorites] = useState<Product[]>([]);
     const [renderFavorites, setRenderFavorites] = useState<boolean>(false);
@@ -75,18 +75,112 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
         setFiltered([]);
     };
 
-    const handleFilter = (filterProperty: string | number) => {
+    // const handleFilter = (filterProperty: string | number) => {
+    //     // Check if the value is present in the object
+    //     if (filterProperty === "") {
+    //         return;
+    //     }
+    //     if (
+    //         products.some((item) =>
+    //             Object.values(item).includes(filterProperty)
+    //         )
+    //     ) {
+    //         const filteredProducts = products.filter((item) =>
+    //             Object.values(item).includes(filterProperty)
+    //         );
+    //         setFiltered(filteredProducts);
+    //         setSorted([]);
+    //     }
+    // };
+
+    // const handleFilterPropertyChange = (
+    //     event: React.ChangeEvent<HTMLSelectElement>
+    // ) => {
+    //     setFilterProperty(event.target.value as keyof Product);
+    // };
+
+    // return (
+    //     <div className="products-section">
+    //         <h3>The Products:</h3>
+    //         <div className="products-display-options">
+    //             {/* conditionally render the sorted  products by clicking button: */}
+    //             <button onClick={handleSort}>sort products a - z</button>
+
+    //             {/*conditionally show favorites button: */}
+    //             {savedFavoriteProducts && favorites.length > 0 && (
+    //                 <button onClick={handleShowFavorites}>
+    //                     Show Favorites
+    //                 </button>
+    //             )}
+
+    //             {/* conditionally render the filtered products by clicking button: */}
+    //             <button onClick={() => handleFilter(filterProperty)}>
+    //                 Filter by model:
+    //             </button>
+    //             <label>
+    //                 <select
+    //                     value={filterProperty}
+    //                     onChange={handleFilterPropertyChange}
+    //                 >
+    //                     <option value="">-- Select Property --</option>
+    //                     {uniqueModels.map((model) => (
+    //                         <option key={model} value={model}>
+    //                             {model}
+    //                         </option>
+    //                     ))}
+    //                 </select>
+    //             </label>
+
+    //             <button onClick={() => handleFilter(filterProperty)}>
+    //                 Filter by manufacturer
+    //             </button>
+    //             <label>
+    //                 <select
+    //                     value={filterProperty}
+    //                     onChange={handleFilterPropertyChange}
+    //                 >
+    //                     <option value="">-- Select Property --</option>
+    //                     {uniqueManufacturers.map((manufacturer) => (
+    //                         <option key={manufacturer} value={manufacturer}>
+    //                             {manufacturer}
+    //                         </option>
+    //                     ))}
+    //                 </select>
+    //             </label>
+
+    //             {/* //double tilde to transform property into Number */}
+    //             <button onClick={() => handleFilter(~~filterProperty)}>
+    //                 Filter by Year of production
+    //             </button>
+    //             <label>
+    //                 <select
+    //                     value={filterProperty}
+    //                     onChange={handleFilterPropertyChange}
+    //                 >
+    //                     <option value="">-- Select Property --</option>
+    //                     {uniqueYears.map((year) => (
+    //                         <option key={year} value={year}>
+    //                             {year}
+    //                         </option>
+    //                     ))}
+    //                 </select>
+    //             </label>
+    //         </div>
+
+    const handleFilter = (filterValue: string | number) => {
         // Check if the value is present in the object
-        if (filterProperty === "") {
+        if (selectedFilterProperty === "") {
             return;
         }
         if (
-            products.some((item) =>
-                Object.values(item).includes(filterProperty)
+            products.some(
+                (item) => Object.values(item).includes(filterValue)
+                // String(item[selectedFilterProperty]) === String(filterValue)
             )
         ) {
-            const filteredProducts = products.filter((item) =>
-                Object.values(item).includes(filterProperty)
+            const filteredProducts = products.filter(
+                (item) => Object.values(item).includes(filterValue)
+                // String(item[selectedFilterProperty]) === String(filterValue)
             );
             setFiltered(filteredProducts);
             setSorted([]);
@@ -96,7 +190,7 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
     const handleFilterPropertyChange = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        setFilterProperty(event.target.value as keyof Product);
+        setSelectedFilterProperty(event.target.value as keyof Product);
     };
 
     return (
@@ -107,19 +201,19 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 <button onClick={handleSort}>sort products a - z</button>
 
                 {/*conditionally show favorites button: */}
-                {savedFavoriteProducts && favorites.length > 0 && (
+                {savedFavoriteProducts && (
                     <button onClick={handleShowFavorites}>
-                        Show Favorites
+                        show favorites
                     </button>
                 )}
 
                 {/* conditionally render the filtered products by clicking button: */}
-                <button onClick={() => handleFilter(filterProperty)}>
+                <button onClick={() => handleFilter(selectedFilterProperty)}>
                     Filter by model:
                 </button>
                 <label>
                     <select
-                        value={filterProperty}
+                        value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
                         <option value="">-- Select Property --</option>
@@ -131,12 +225,12 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                     </select>
                 </label>
 
-                <button onClick={() => handleFilter(filterProperty)}>
+                <button onClick={() => handleFilter(selectedFilterProperty)}>
                     Filter by manufacturer
                 </button>
                 <label>
                     <select
-                        value={filterProperty}
+                        value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
                         <option value="">-- Select Property --</option>
@@ -149,12 +243,12 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 </label>
 
                 {/* //double tilde to transform property into Number */}
-                <button onClick={() => handleFilter(~~filterProperty)}>
+                <button onClick={() => handleFilter(~~selectedFilterProperty)}>
                     Filter by Year of production
                 </button>
                 <label>
                     <select
-                        value={filterProperty}
+                        value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
                         <option value="">-- Select Property --</option>

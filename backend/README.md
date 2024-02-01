@@ -30,8 +30,16 @@ Before running the server.ts file, make sure you have the following prerequisite
 
 ### Running the Server
 
--   To run the server, use the following command:
+-   There are currently two server versions, vanilla NodeJS and ExpressJs:
+
+1.  To run the **NodeJS server**, use the following command:
 
     ```bash
-    npm run server
+    npm run node-server
+    ```
+
+2.  To run the **ExpressJS server**, use the following command:
+
+    ```bash
+    npm run express-server
     ```

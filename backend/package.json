@@ -5,7 +5,8 @@
     "main": "server.ts",
     "type": "module",
     "scripts": {
-        "server": "node server.js"
+        "node-server": "node node-server.js",
+        "express-server": "npx tsx express-server.ts"
     },
     "keywords": [],
     "author": "",
