@@ -1,8 +1,9 @@
 import { createServer } from "http";
 import { parse } from "url";
 import fs from "fs/promises";
+import "dotenv/config";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const readProducts = async () => {
     try {
