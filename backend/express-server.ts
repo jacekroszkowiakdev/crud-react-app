@@ -5,7 +5,7 @@ import { Product } from "./model";
 import "dotenv/config";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3333;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -87,9 +87,7 @@ app.delete("/api/products/delete/:id", async (req: Request, res: Response) => {
             });
         }
         products.splice(indexToDelete, 1);
-        console.log("Products before deleting:", products);
         await writeProducts(products);
-        console.log("Products after deleting:", products);
         res.status(200).json({
             message: `Product with ID ${idToDelete} has been successfully deleted.`,
         });
