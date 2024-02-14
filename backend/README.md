@@ -43,3 +43,9 @@ Before running the server.ts file, make sure you have the following prerequisite
     ```bash
     npm run express-server
     ```
+
+3.  To watch the **ExpressJS server**, run the following:
+
+    ```bash
+    npm run watch-server
+    ```

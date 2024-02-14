@@ -1,5 +1,5 @@
 import "./ProductCrudControl.styles.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Product } from "../../model/model";
 
 export const ProductCrudControl: React.FC<{
@@ -16,6 +16,38 @@ export const ProductCrudControl: React.FC<{
         const productToEdit = products.find((product) => product.id === id);
         setUpdatedProductData(productToEdit ? { ...productToEdit } : null);
     };
+
+    // async function fetchData() {
+    //     const response = await fetch(
+    //         `http://localhost:${productsDBPort}/api/products`
+    //     );
+    //     if (!response.ok) {
+    //         throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     setProducts(data);
+    //     console.log("fetched data: ", data);
+    // }
+
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:${productsDBPort}/api/products`
+            );
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setProducts(data);
+            console.log("fetched data: ", data);
+        } catch (error) {
+            console.error("Error fetching product data:", error.message);
+        }
+    }, [productsDBPort]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const submitEditedProductData = async () => {
         try {
@@ -63,22 +95,6 @@ export const ProductCrudControl: React.FC<{
         setUpdatedProductData(null);
         setSubmittedProduct(null);
     };
-
-    async function fetchData() {
-        const response = await fetch(
-            `http://localhost:${productsDBPort}/api/products`
-        );
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setProducts(data);
-        console.log("fetched data: ", data);
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const handleDelete = async (id: string) => {
         try {
