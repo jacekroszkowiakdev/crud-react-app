@@ -1,8 +1,15 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+export interface IUserDocument extends mongoose.Document {
+    username: string;
+    email: string;
+    password: string;
+}
+
+const UserSchema: mongoose.Schema<IUserDocument> = new mongoose.Schema({
     username: { type: String, unique: true },
+    email: { type: String, unique: true },
     password: { type: String },
 });
 
-module.exports = mongoose.model("User", userSchema);
+export const UserModel = mongoose.model<IUserDocument>("User", UserSchema);
