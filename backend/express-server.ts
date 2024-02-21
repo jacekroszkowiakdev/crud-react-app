@@ -1,15 +1,20 @@
 import express, { Request, Response } from "express";
+import mongoose from "./configuration/mongoose.config";
 import cors from "cors";
 import fs from "fs/promises";
 import { Product } from "./model";
 import "dotenv/config";
 
 const app = express();
-const port = process.env.PORT || 3333;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+mongoose.connection.once("open", () => {
+    console.log("MongoDB connected");
+});
 
 const readProducts = async (): Promise<Product[]> => {
     try {
