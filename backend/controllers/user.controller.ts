@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getErrorMessage } from "../utils/errors.handler";
 import * as userServices from "../services/user.service";
-import { CustomRequest } from "../middleware/auth";
+import { CustomRequest } from "../middleware/auth.middleware";
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
