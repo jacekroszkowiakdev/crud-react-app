@@ -30,7 +30,7 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
 
             const filteredAndSortedModels = filterUniqueValues<string>(
                 products,
-                "model"
+                "bikeModel"
             ).sort((a, b) => a.localeCompare(b));
 
             setUniqueModels(filteredAndSortedModels);
@@ -174,7 +174,7 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                 {renderFavorites &&
                     favorites.map((product) => (
                         <ProductDetails
-                            key={product.id}
+                            key={product.modelId}
                             product={product}
                             addToFavorites={addToFavorites}
                         />

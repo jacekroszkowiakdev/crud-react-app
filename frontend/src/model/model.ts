@@ -1,8 +1,8 @@
 export interface Product {
-    id: string;
+    modelId: string;
+    bikeModel: string;
     manufacturer: string;
     year: number;
-    model: string;
 }
 
 export interface ProductDetailProps {

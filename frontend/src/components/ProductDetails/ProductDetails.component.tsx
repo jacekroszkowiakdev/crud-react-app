@@ -7,18 +7,18 @@ export const ProductDetails: React.FC<ProductDetailProps> = ({
     addToFavorites,
 }) => {
     return (
-        <div className="product-card" key={product.id}>
+        <div className="product-card" key={product.modelId}>
             <div className="product-image-container">
                 <img
                     className="product-image"
-                    src={`../../public/images/${product.model}.jpg`}
-                    alt={`image of ${product.manufacturer} ${product.model}`}
+                    src={`../../public/images/${product.bikeModel}.jpg`}
+                    alt={`image of ${product.manufacturer} ${product.bikeModel}`}
                 />
             </div>
             <div className="product-card-content">
                 <h2>{product.manufacturer}</h2>
                 <p>
-                    {product.model} {product.year}
+                    {product.bikeModel} {product.year}
                 </p>
                 <span>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

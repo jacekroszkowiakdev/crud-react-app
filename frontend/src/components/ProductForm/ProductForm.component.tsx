@@ -1,5 +1,5 @@
 import "./ProductForm.styles.css";
-import React, { FormEvent, useState, useEffect } from "react";
+import React, { FormEvent, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../model/model";
 
@@ -8,10 +8,10 @@ export const ProductForm: React.FC<{
     updateProductList: () => void;
 }> = ({ productsDBPort, updateProductList }) => {
     let [newProduct, setNewProduct] = useState<Product>({
-        id: "",
+        modelId: "",
+        bikeModel: "",
         manufacturer: "",
         year: 0,
-        model: "",
     });
     const [products, setProducts] = useState<Product[]>([]);
     const [creationSuccess, setCreationSuccess] = useState<boolean>(false);
@@ -21,8 +21,8 @@ export const ProductForm: React.FC<{
         navigate("/");
     };
 
-    useEffect(() => {
-        async function fetchData() {
+    const fetchData = useCallback(async () => {
+        try {
             const response = await fetch(
                 `http://localhost:${productsDBPort}/api/products`
             );
@@ -31,9 +31,15 @@ export const ProductForm: React.FC<{
             }
             const data = await response.json();
             setProducts(data);
+            console.log("fetched data: ", data);
+        } catch (error) {
+            console.error("Error fetching product data:", error.message);
         }
+    }, [productsDBPort]);
+
+    useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -41,10 +47,10 @@ export const ProductForm: React.FC<{
         const data = new FormData(e.currentTarget);
 
         const submittedProduct: Product = {
-            id: (products.length + 1).toString(),
+            modelId: (products.length + 1).toString(),
+            bikeModel: data.get("model") as string,
             manufacturer: data.get("manufacturer") as string,
             year: Number(data.get("year")),
-            model: data.get("model") as string,
         };
 
         newProduct = submittedProduct;
@@ -86,7 +92,7 @@ export const ProductForm: React.FC<{
                     <p>Product successfully added to the database!</p>
                     <h5>Manufacturer: {newProduct.manufacturer}</h5>
                     <h5>Year of Production: {newProduct.year}</h5>
-                    <h5>Model: {newProduct.model}</h5>
+                    <h5>Model: {newProduct.bikeModel}</h5>
                     <button
                         className="go-home-button"
                         onClick={handleNavigateHome}

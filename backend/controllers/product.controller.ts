@@ -1,19 +1,5 @@
 import { Request, Response } from "express";
 import Product from "../models/product.model";
-// import fs from "fs/promises";
-
-// export const fsReadProducts = async (): Promise<(typeof Product)[]> => {
-//     try {
-//         const data = await fs.readFile("../api/db/products.json", "utf-8");
-//         const jsonData = JSON.parse(data);
-//         const products = jsonData.products as (typeof Product)[];
-
-//         return products;
-//     } catch (error) {
-//         console.error("Error reading file:", error.message);
-//         throw new Error("Internal Server Error");
-//     }
-// };
 
 export const getAllProducts = async (_req: Request, res: Response) => {
     try {

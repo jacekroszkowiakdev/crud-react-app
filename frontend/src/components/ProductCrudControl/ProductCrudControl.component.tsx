@@ -13,21 +13,11 @@ export const ProductCrudControl: React.FC<{
     );
 
     const handleEdit = (id: string) => {
-        const productToEdit = products.find((product) => product.id === id);
+        const productToEdit = products.find(
+            (product) => product.modelId === id
+        );
         setUpdatedProductData(productToEdit ? { ...productToEdit } : null);
     };
-
-    // async function fetchData() {
-    //     const response = await fetch(
-    //         `http://localhost:${productsDBPort}/api/products`
-    //     );
-    //     if (!response.ok) {
-    //         throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //     const data = await response.json();
-    //     setProducts(data);
-    //     console.log("fetched data: ", data);
-    // }
 
     const fetchData = useCallback(async () => {
         try {
@@ -53,7 +43,7 @@ export const ProductCrudControl: React.FC<{
         try {
             const response = await fetch(
                 `http://localhost:${productsDBPort}/api/products/update/${
-                    updatedProductData?.id || ""
+                    updatedProductData?.modelId || ""
                 }`,
                 {
                     method: "PUT",
@@ -78,10 +68,10 @@ export const ProductCrudControl: React.FC<{
             setSubmittedProduct(
                 updatedProductData
                     ? {
-                          id: updatedProductData.id || "",
+                          modelId: updatedProductData.modelId || "",
+                          bikeModel: updatedProductData.bikeModel || "",
                           manufacturer: updatedProductData.manufacturer || "",
                           year: updatedProductData.year || 0,
-                          model: updatedProductData.model || "",
                       }
                     : null
             );
@@ -124,21 +114,23 @@ export const ProductCrudControl: React.FC<{
             {products.map((product) => (
                 <div
                     className={`product-card ${
-                        updatedProductData?.id === product.id ? "editing" : ""
+                        updatedProductData?.modelId === product.modelId
+                            ? "editing"
+                            : ""
                     }`}
-                    key={product.id}
+                    key={product.modelId}
                 >
                     <div className="product-image-container">
                         <img
                             className="product-image"
-                            src={`../../public/images/${product.model}.jpg`}
-                            alt={`image of ${product.manufacturer} ${product.model}`}
+                            src={`../../public/images/${product.bikeModel}.jpg`}
+                            alt={`image of ${product.manufacturer} ${product.bikeModel}`}
                         />
                     </div>
                     <div className="product-card-content">
                         <h2>{product.manufacturer}</h2>
                         <p>
-                            {product.model} ({product.year})
+                            {product.bikeModel} ({product.year})
                         </p>
                         <span>
                             Lorem ipsum dolor sit amet consectetur adipisicing
@@ -146,7 +138,7 @@ export const ProductCrudControl: React.FC<{
                         </span>
                     </div>
                     {updatedProductData &&
-                    updatedProductData.id === product.id ? (
+                    updatedProductData.modelId === product.modelId ? (
                         <div>
                             <div className="user-input">
                                 <label>Manufacturer:</label>
@@ -180,11 +172,11 @@ export const ProductCrudControl: React.FC<{
                                 <label>Model:</label>
                                 <input
                                     type="text"
-                                    value={updatedProductData.model}
+                                    value={updatedProductData.bikeModel}
                                     onChange={(e) =>
                                         setUpdatedProductData({
                                             ...updatedProductData,
-                                            model: e.target.value,
+                                            bikeModel: e.target.value,
                                         })
                                     }
                                 />
@@ -199,13 +191,13 @@ export const ProductCrudControl: React.FC<{
                         <div>
                             <button
                                 className="edit-button"
-                                onClick={() => handleEdit(product.id)}
+                                onClick={() => handleEdit(product.modelId)}
                             >
                                 Edit
                             </button>
                             <button
                                 className="delete-button"
-                                onClick={() => handleDelete(product.id)}
+                                onClick={() => handleDelete(product.modelId)}
                             >
                                 Delete
                             </button>
@@ -218,7 +210,7 @@ export const ProductCrudControl: React.FC<{
                     <h4>Product successfully updated!</h4>
                     <h5>Manufacturer: {submittedProduct.manufacturer}</h5>
                     <h5>Year of Production: {submittedProduct.year}</h5>
-                    <h5>Model: {submittedProduct.model}</h5>
+                    <h5>Model: {submittedProduct.bikeModel}</h5>
                     <button onClick={handleCloseEdit}>Close</button>
                 </div>
             )}

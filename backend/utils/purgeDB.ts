@@ -16,9 +16,7 @@ const deleteAllDocuments = async () => {
             .catch((err) => console.error("MongoDB connection error:", err));
 
         await Product.deleteMany({});
-
         console.log("All documents deleted successfully");
-
         await mongoose.connection.close();
     } catch (error) {
         console.error("Error deleting documents:", error);

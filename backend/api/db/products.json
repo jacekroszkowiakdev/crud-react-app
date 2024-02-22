@@ -1,54 +1,64 @@
 {
     "products": [
         {
-            "id": "1",
+            "modelId": "1",
+            "bikeModel": "Caad12",
             "manufacturer": "Cannondale",
-            "year": 2019,
-            "bikeModel": "Caad12"
+            "year": 2019
         },
         {
-            "id": "2",
+            "modelId": "2",
+            "bikeModel": "Gestalt3",
             "manufacturer": "Marin",
-            "year": 2017,
-            "bikeModel": "Gestalt3"
+            "year": 2017
         },
-        { "id": "3", "manufacturer": "Felt", "year": 2018, "model": "Z75" },
         {
-            "id": "4",
+            "modelId": "3",
+            "bikeModel": "Z75",
+            "manufacturer": "Felt",
+            "year": 2018
+        },
+        {
+            "modelId": "4",
+            "bikeModel": "Crux",
             "manufacturer": "Specialized",
-            "year": 2022,
-            "bikeModel": "Crux"
+            "year": 2022
         },
-        { "id": "5", "manufacturer": "Felt", "year": 2018, "model": "Z85" },
         {
-            "id": "6",
+            "modelId": "5",
+            "bikeModel": "Z75",
+            "manufacturer": "Felt",
+            "year": 2018
+        },
+        {
+            "modelId": "6",
+            "bikeModel": "Caad13",
             "manufacturer": "Cannondale",
-            "year": 2022,
-            "bikeModel": "Caad13"
+            "year": 2022
         },
         {
-            "id": "7",
+            "modelId": "7",
+            "bikeModel": "Nicasio",
             "manufacturer": "Marin",
-            "year": 2018,
-            "bikeModel": "Nicasio"
+            "year": 2018
         },
         {
-            "id": "8",
+            "modelId": "8",
+            "bikeModel": "Nicasio2",
             "manufacturer": "Marin",
-            "year": 2022,
-            "bikeModel": "Nicasio2"
+            "year": 2022
         },
         {
-            "id": "9",
+            "modelId": "9",
+            "bikeModel": "HRVT",
             "manufacturer": "Rondo",
-            "year": 2023,
-            "bikeModel": "HRVT"
+            "year": 2023
         },
         {
-            "id": "10",
+            "modelId": "10",
+            "bikeModel": "Rut",
             "manufacturer": "Rondo",
-            "year": 2020,
-            "bikeModel": "Rut"
+            "year": 2020
         }
     ]
 }
