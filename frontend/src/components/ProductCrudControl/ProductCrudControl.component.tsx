@@ -65,6 +65,7 @@ export const ProductCrudControl: React.FC<{
 
             // Refresh the data after successful update
             fetchData();
+
             setSubmittedProduct(
                 updatedProductData
                     ? {
@@ -75,6 +76,7 @@ export const ProductCrudControl: React.FC<{
                       }
                     : null
             );
+            console.log("updatedProductData", updatedProductData);
             setUpdatedProductData(null);
         } catch (error) {
             console.error("Error updating product:", error.message);

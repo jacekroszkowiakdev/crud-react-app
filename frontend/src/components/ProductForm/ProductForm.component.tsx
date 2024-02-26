@@ -31,7 +31,6 @@ export const ProductForm: React.FC<{
             }
             const data = await response.json();
             setProducts(data);
-            console.log("fetched data: ", data);
         } catch (error) {
             console.error("Error fetching product data:", error.message);
         }
@@ -54,7 +53,7 @@ export const ProductForm: React.FC<{
         };
 
         newProduct = submittedProduct;
-        console.log("newProduct reassigned: ", newProduct);
+        console.log("newProduct data: ", newProduct);
 
         try {
             const response = await fetch(

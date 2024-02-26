@@ -199,7 +199,6 @@ const server = createServer(async (req, res) => {
             res.end(JSON.stringify({ error: error.message }));
         }
     } else {
-        // Handle other routes or methods
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Not Found" }));
     }
