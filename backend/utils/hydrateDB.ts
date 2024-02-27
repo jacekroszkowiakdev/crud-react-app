@@ -1,7 +1,7 @@
 import "dotenv/config";
 import fs from "fs/promises";
 import mongoose from "mongoose";
-import Product from "../models/product.model";
+import ProductModel from "../models/product.model";
 
 const MONGO_URL = process.env.DB_CONNECTION_STRING;
 
@@ -18,7 +18,7 @@ const hydrateDatabase = async () => {
             .connect(MONGO_URL)
             .catch((err) => console.error("MongoDB connection error:", err));
 
-        await Product.insertMany(jsonData.products);
+        await ProductModel.insertMany(jsonData.products);
         console.log("Database hydrated successfully!");
         await mongoose.connection.close();
     } catch (error) {

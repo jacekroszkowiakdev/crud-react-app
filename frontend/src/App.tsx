@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
+import { Footer } from "../src/components/Footer/Footer.component"
 import { ProductList } from "./components/ProductList/ProductsList.component";
 import { ProductCrudControl } from "./components/ProductCrudControl/ProductCrudControl.component";
 import { ProductForm } from "./components/ProductForm/ProductForm.component";
@@ -64,6 +65,7 @@ const App: React.FC = () => {
             </BrowserRouter>
 
             <ProductList products={products} />
+            <Footer>
         </div>
     );
 };
