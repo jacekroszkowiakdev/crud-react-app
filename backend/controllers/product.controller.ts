@@ -12,7 +12,6 @@ export const getAllProducts = async (_req: Request, res: Response) => {
     }
 };
 
-//AUTH routes:
 export const addProduct = async (req: Request, res: Response) => {
     try {
         const newProduct = await productsServices.createOne(

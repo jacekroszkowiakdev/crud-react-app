@@ -1,19 +1,22 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
-import { Footer } from "../src/components/Footer/Footer.component"
+import { Header } from "./components/Header/Header.component";
+import { Login } from "../src/components/Login/Login.component";
+import { Footer } from "../src/components/Footer/Footer.component";
 import { ProductList } from "./components/ProductList/ProductsList.component";
 import { ProductCrudControl } from "./components/ProductCrudControl/ProductCrudControl.component";
 import { ProductForm } from "./components/ProductForm/ProductForm.component";
-import { Product } from "./model/model";
+import { Product } from "./model/Product.model";
 
 const App: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
-    const productsDBPort = import.meta.env.VITE_PRODUCTS_BACKEND_SERVER_PORT;
+    const productsBackendPort = import.meta.env
+        .VITE_PRODUCTS_BACKEND_SERVER_PORT;
 
     async function fetchData() {
         const response = await fetch(
-            `http://localhost:${productsDBPort}/api/products`
+            `http://localhost:${productsBackendPort}/api/products`
         );
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,31 +35,48 @@ const App: React.FC = () => {
 
     return (
         <div className="app-container">
-            <h2>Click the button to create, edit, or delete the products:</h2>
-
+            <Header />
             <BrowserRouter>
-                <Link to="/product-crud-control">
-                    <button>Manage Products Details</button>
-                </Link>
+                <div className="links">
+                    <Link to="/">
+                        <button>Main</button>
+                    </Link>
 
-                <Link to="/product-form">
-                    <button>Create and add to DB</button>
-                </Link>
+                    <Link to="/edit-products">
+                        <button>Manage Products Details</button>
+                    </Link>
+
+                    <Link to="/create-products">
+                        <button>Create and add to DB</button>
+                    </Link>
+
+                    <Link to="/login">
+                        <button>Sing In</button>
+                    </Link>
+                </div>
 
                 <Routes>
                     <Route
-                        path="/product-crud-control"
+                        path="/"
+                        element={<ProductList products={products} />}
+                    ></Route>
+                    <Route
+                        path="/login"
+                        element={<Login backendPort={productsBackendPort} />}
+                    ></Route>
+                    <Route
+                        path="/edit-products"
                         element={
                             <ProductCrudControl
-                                productsDBPort={productsDBPort}
+                                backendPort={productsBackendPort}
                             />
                         }
                     ></Route>
                     <Route
-                        path="/product-form"
+                        path="/create-products"
                         element={
                             <ProductForm
-                                productsDBPort={productsDBPort}
+                                backendPort={productsBackendPort}
                                 updateProductList={updateProductList}
                             />
                         }
@@ -64,8 +84,7 @@ const App: React.FC = () => {
                 </Routes>
             </BrowserRouter>
 
-            <ProductList products={products} />
-            <Footer>
+            <Footer />
         </div>
     );
 };

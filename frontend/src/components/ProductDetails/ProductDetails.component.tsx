@@ -1,6 +1,6 @@
 import React from "react";
 import "./ProductDetails.styles.css";
-import { ProductDetailProps } from "../../model/model";
+import { ProductDetailProps } from "../../model/Product.model";
 
 export const ProductDetails: React.FC<ProductDetailProps> = ({
     product,
@@ -29,7 +29,7 @@ export const ProductDetails: React.FC<ProductDetailProps> = ({
                 className="addToFavorites-button"
                 onClick={() => addToFavorites(product)}
             >
-                favorite
+                <span>❤️️</span>
             </button>
         </div>
     );

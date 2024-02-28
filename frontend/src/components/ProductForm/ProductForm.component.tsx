@@ -1,13 +1,13 @@
 import "./ProductForm.styles.css";
 import React, { FormEvent, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../model/model";
+import { Product } from "../../model/Product.model";
 
 export const ProductForm: React.FC<{
-    productsDBPort: number;
+    backendPort: number;
     updateProductList: () => void;
-}> = ({ productsDBPort, updateProductList }) => {
-    let [newProduct, setNewProduct] = useState<Product>({
+}> = ({ backendPort, updateProductList }) => {
+    const [newProduct, setNewProduct] = useState<Product>({
         modelId: "",
         bikeModel: "",
         manufacturer: "",
@@ -24,7 +24,7 @@ export const ProductForm: React.FC<{
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products`
+                `http://localhost:${backendPort}/api/products`
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +34,7 @@ export const ProductForm: React.FC<{
         } catch (error) {
             console.error("Error fetching product data:", error.message);
         }
-    }, [productsDBPort]);
+    }, [backendPort]);
 
     useEffect(() => {
         fetchData();
@@ -52,16 +52,13 @@ export const ProductForm: React.FC<{
             year: Number(data.get("year")),
         };
 
-        newProduct = submittedProduct;
-        console.log("newProduct data: ", newProduct);
-
         try {
             const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products/add`,
+                `http://localhost:${backendPort}/api/products/add`,
                 {
                     method: "POST",
                     mode: "cors",
-                    body: JSON.stringify({ newProduct }),
+                    body: JSON.stringify({ newProduct: submittedProduct }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                     },

@@ -1,6 +1,4 @@
-import { DocumentDefinition } from "mongoose";
 import ProductModel, { IProductDocument } from "../models/product.model";
-import { updateProduct } from "../controllers/product.controller";
 
 export async function findAll(): Promise<IProductDocument[] | null> {
     try {

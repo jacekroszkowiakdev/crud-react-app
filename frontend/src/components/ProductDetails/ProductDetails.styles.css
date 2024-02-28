@@ -3,7 +3,7 @@
     height: 500px;
     display: flex;
     flex-direction: column;
-    background-color: #95dada;
+    background-color: #a1ecec;
     border: 1px solid grey;
     border-radius: 5px;
     padding: 25px;
@@ -30,8 +30,21 @@
 }
 
 .addToFavorites-button {
-    background-color: red;
-    width: fit-content;
+    aspect-ratio: 1;
+    box-sizing: content-box;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 40px;
+    background-color: black;
+    transition: background-color 0.3s;
+}
+
+.addToFavorites-button:hover {
+    transform: scale(1.35);
+    background-color: inherit;
+    border-style: hidden;
 }
 
 .product-card h2 {

@@ -1,9 +1,18 @@
-.product-display-options {
-    width: 70%;
+.products-section {
+    display: grid;
+    justify-items: center;
+}
+
+.check-bikes-or-favorites {
+    background-color: transparent;
+    width: 70vw;
+    height: 150px;
+}
+.products-display-options {
     display: flex;
+    gap: 10px;
     flex-direction: row;
     margin: 10px 0;
-    background-color: lightslategray;
 }
 
 select {
@@ -12,6 +21,7 @@ select {
     margin-right: 10px;
     padding: 8px;
     font-size: 16px;
+    width: 20px;
 }
 
 .products-container {

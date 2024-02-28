@@ -6,6 +6,7 @@ import { UserModel, IUserDocument } from "../models/user.model";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
+// SALT password in the register function
 export async function register(
     user: DocumentDefinition<IUserDocument>
 ): Promise<void> {
@@ -16,9 +17,8 @@ export async function register(
         throw new Error("Could not register user. Please try again later.");
     }
 }
-// SALT password in the register function
 
-TODO: export async function login(
+export async function login(
     user: DocumentDefinition<IUserDocument>
 ): Promise<{ user: IUserDocument; token: string }> {
     try {

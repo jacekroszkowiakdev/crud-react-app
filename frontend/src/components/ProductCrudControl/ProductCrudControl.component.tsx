@@ -1,10 +1,10 @@
 import "./ProductCrudControl.styles.css";
 import React, { useEffect, useState, useCallback } from "react";
-import { Product } from "../../model/model";
+import { Product } from "../../model/Product.model";
 
 export const ProductCrudControl: React.FC<{
-    productsDBPort: number;
-}> = ({ productsDBPort }) => {
+    backendPort: number;
+}> = ({ backendPort }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [updatedProductData, setUpdatedProductData] =
         useState<Partial<Product> | null>(null);
@@ -22,18 +22,17 @@ export const ProductCrudControl: React.FC<{
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products`
+                `http://localhost:${backendPort}/api/products`
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
             setProducts(data);
-            console.log("fetched data: ", data);
         } catch (error) {
             console.error("Error fetching product data:", error.message);
         }
-    }, [productsDBPort]);
+    }, [backendPort]);
 
     useEffect(() => {
         fetchData();
@@ -42,7 +41,7 @@ export const ProductCrudControl: React.FC<{
     const submitEditedProductData = async () => {
         try {
             const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products/update/${
+                `http://localhost:${backendPort}/api/products/update/${
                     updatedProductData?.modelId || ""
                 }`,
                 {
@@ -76,7 +75,6 @@ export const ProductCrudControl: React.FC<{
                       }
                     : null
             );
-            console.log("updatedProductData", updatedProductData);
             setUpdatedProductData(null);
         } catch (error) {
             console.error("Error updating product:", error.message);
@@ -91,7 +89,7 @@ export const ProductCrudControl: React.FC<{
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(
-                `http://localhost:${productsDBPort}/api/products/delete/${id}`,
+                `http://localhost:${backendPort}/api/products/delete/${id}`,
                 {
                     method: "DELETE",
                     headers: {

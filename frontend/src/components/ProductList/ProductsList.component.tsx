@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import "./ProductList.styles.css";
-import { Product } from "../../model/model";
+import React, { useEffect, useState } from "react";
+import { Product } from "../../model/Product.model";
 import { ProductDetails } from "../ProductDetails/ProductDetails.component";
 
 export const ProductList: React.FC<{ products: Product[] }> = ({
@@ -103,28 +103,31 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
 
     return (
         <div className="products-section">
-            <h3>The Products:</h3>
-            <div className="products-display-options">
-                {/* conditionally render the sorted  products by clicking button: */}
-                <button onClick={handleSort}>sort products a - z</button>
-
-                {/*conditionally show favorites button: */}
-                {savedFavoriteProducts && (
-                    <button onClick={handleShowFavorites}>
-                        show favorites
-                    </button>
+            <div className="check-bikes-or-favorites">
+                {savedFavoriteProducts &&
+                JSON.parse(savedFavoriteProducts).length > 0 ? (
+                    <>
+                        <button onClick={handleShowFavorites}>
+                            Check your favorites
+                        </button>
+                    </>
+                ) : (
+                    <h3>Check The Bikes</h3>
                 )}
+            </div>
 
-                {/* conditionally render the filtered products by clicking button: */}
+            <div className="products-display-options">
+                <button onClick={handleSort}>sort products A - Z</button>
+
                 <button onClick={() => handleFilter(selectedFilterProperty)}>
-                    Filter by model:
+                    Filter by Model:
                 </button>
                 <label>
                     <select
                         value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
-                        <option value="">-- Select Property --</option>
+                        <option value=""></option>
                         {uniqueModels.map((model) => (
                             <option key={model} value={model}>
                                 {model}
@@ -132,16 +135,15 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                         ))}
                     </select>
                 </label>
-
                 <button onClick={() => handleFilter(selectedFilterProperty)}>
-                    Filter by manufacturer
+                    Filter by Manufacturer
                 </button>
                 <label>
                     <select
                         value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
-                        <option value="">-- Select Property --</option>
+                        <option value=""></option>
                         {uniqueManufacturers.map((manufacturer) => (
                             <option key={manufacturer} value={manufacturer}>
                                 {manufacturer}
@@ -149,17 +151,16 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                         ))}
                     </select>
                 </label>
-
                 {/* //double tilde to transform property into Number */}
                 <button onClick={() => handleFilter(~~selectedFilterProperty)}>
-                    Filter by Year of production
+                    Filter by Year of Production
                 </button>
                 <label>
                     <select
                         value={selectedFilterProperty}
                         onChange={handleFilterPropertyChange}
                     >
-                        <option value="">-- Select Property --</option>
+                        <option value=""></option>
                         {uniqueYears.map((year) => (
                             <option key={year} value={year}>
                                 {year}
@@ -168,7 +169,6 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                     </select>
                 </label>
             </div>
-
             {/* render the product stored in the favorites */}
             <div className="favorites-container">
                 {renderFavorites &&
@@ -180,7 +180,6 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                         />
                     ))}
             </div>
-
             <div className="products-container">
                 {filtered.map((product) => {
                     return (
@@ -200,7 +199,6 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
                     );
                 })}
             </div>
-
             {/* Render all products form the data base on page load */}
             {sorted.length === 0 && filtered.length === 0 && (
                 <div className="products-container">

@@ -1,0 +1,22 @@
+.footer {
+    background-color: #4d4d4d;
+}
+.social-media-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: none;
+    background-color: #333;
+    color: white;
+    height: 100px;
+    width: 95vh;
+}
+
+.copyright {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+svg:hover {
+    fill: whitesmoke;
+}

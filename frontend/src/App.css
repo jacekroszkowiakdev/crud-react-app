@@ -20,3 +20,12 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.links button {
+    width: 301px;
+    padding: 50px;
+}
+
+.links button:hover {
+    background-color: black;
+}

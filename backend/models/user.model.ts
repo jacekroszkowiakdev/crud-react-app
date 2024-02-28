@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const SALT_WORK_FACTOR = 10;
-
 export interface IUserDocument extends mongoose.Document {
     username: string;
     email: string;
@@ -15,8 +13,9 @@ const UserSchema: mongoose.Schema<IUserDocument> = new mongoose.Schema({
     password: { type: String },
 });
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", async function (next) {
     const user = this;
+    const SALT_WORK_FACTOR = 10;
 
     // only hash the password if it has been modified (or is new)
     if (!user.isModified("password")) return next();
