@@ -1,3 +1,4 @@
+import "./Login.styles.css";
 import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -92,7 +93,7 @@ export const Login: React.FC<{
             <button className="go-to-main" onClick={handleNavigateHome}>
                 X
             </button>
-            <h2>{!showRegisterForm ? "Sign In" : "Register"}</h2>
+            <h3>{!showRegisterForm ? "Sign In" : "Register"}</h3>
             <form
                 className={
                     !showRegisterForm ? "sing-in-form" : "create-user-from"
@@ -116,7 +117,7 @@ export const Login: React.FC<{
                     />
                 </div>
                 {!showRegisterForm && (
-                    <>
+                    <div className="buttons-section">
                         <button className="submit-button">Sign In</button>
                         <p>
                             Not registered yet?{" "}
@@ -124,10 +125,10 @@ export const Login: React.FC<{
                                 Register
                             </button>
                         </p>
-                    </>
+                    </div>
                 )}
                 {showRegisterForm && (
-                    <>
+                    <div>
                         <div className="user-input">
                             <input
                                 type="email"
@@ -143,7 +144,7 @@ export const Login: React.FC<{
                                 Return to login
                             </button>
                         </p>
-                    </>
+                    </div>
                 )}
             </form>
         </div>

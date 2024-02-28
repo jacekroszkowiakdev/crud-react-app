@@ -45,15 +45,45 @@
 }
 
 .product-card.editing {
-    transform: scale(1.5) translate(-50%, -50%);
+    width: 600px;
+    height: 800px;
+    background-color: whitesmoke;
+    transform: scaleX(1.45) scaleY(1.11) translate(-36%, -30%);
     z-index: 1;
     position: absolute;
     top: 50%;
     left: 50%;
+    margin-top: 100px;
+    padding: 10px;
+    color: black;
 }
 
-.product-card.editing .user-input {
-    margin-top: 20px;
+.product-card.editing .product-image-container {
+    transform: scaleX(0.8) scaleY(1);
+    object-fit: cover;
+}
+
+.product-card.editing .product-image-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-card.editing .product-card-content,
+.edit-mode-button,
+h2,
+p {
+    transform: scaleX(0.8) scaleY(1.1);
+    margin: 0px 15px 0px 15px;
+}
+
+.product-card.editing .input-form-container {
+    transform: scaleX(0.8) scaleY(1);
+    margin: 0px 15px 10px 15px;
+}
+
+.product-card.editing .edit-mode-button {
+    transform: scale(1.2);
+    margin: 30px 15px 0px 15px;
 }
 
 /* Styles for the close button in the editing state */

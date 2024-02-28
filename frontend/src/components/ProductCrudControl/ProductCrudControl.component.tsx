@@ -139,9 +139,9 @@ export const ProductCrudControl: React.FC<{
                     </div>
                     {updatedProductData &&
                     updatedProductData.modelId === product.modelId ? (
-                        <div>
+                        <div className="input-form-container">
                             <div className="user-input">
-                                <label>Manufacturer:</label>
+                                {/* <label>Manufacturer:</label> */}
                                 <input
                                     type="text"
                                     value={updatedProductData.manufacturer}
@@ -155,7 +155,7 @@ export const ProductCrudControl: React.FC<{
                             </div>
 
                             <div className="user-input">
-                                <label>Year:</label>
+                                {/* <label>Year:</label> */}
                                 <input
                                     type="number"
                                     value={updatedProductData.year || ""}
@@ -169,7 +169,7 @@ export const ProductCrudControl: React.FC<{
                             </div>
 
                             <div className="user-input">
-                                <label>Model:</label>
+                                {/* <label>Model:</label> */}
                                 <input
                                     type="text"
                                     value={updatedProductData.bikeModel}
@@ -182,10 +182,18 @@ export const ProductCrudControl: React.FC<{
                                 />
                             </div>
 
-                            <button onClick={submitEditedProductData}>
+                            <button
+                                className="edit-mode-button"
+                                onClick={submitEditedProductData}
+                            >
                                 Submit
                             </button>
-                            <button onClick={handleCloseEdit}>Close</button>
+                            <button
+                                className="edit-mode-button"
+                                onClick={handleCloseEdit}
+                            >
+                                Close
+                            </button>
                         </div>
                     ) : (
                         <div>
