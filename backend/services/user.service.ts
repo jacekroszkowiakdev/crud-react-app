@@ -1,17 +1,18 @@
 import "dotenv/config";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { DocumentDefinition } from "mongoose";
 import { UserModel, IUserDocument } from "../models/user.model";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-// SALT password in the register function
 export async function register(
     user: DocumentDefinition<IUserDocument>
 ): Promise<void> {
     try {
+        console.log("registration data before DB: ", user);
         await UserModel.create(user);
+        console.log("registration data in DB: ", user);
     } catch (error) {
         console.error("Error occurred while registering user:", error);
         throw new Error("Could not register user. Please try again later.");
@@ -30,6 +31,8 @@ export async function login(
             throw new Error("Username incorrect");
         }
 
+        console.log("typed password: ", user.password);
+        console.log("db password: ", foundUser.password);
         const isMatch = bcrypt.compareSync(user.password, foundUser.password);
 
         if (isMatch) {

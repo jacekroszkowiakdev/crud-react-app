@@ -4,6 +4,7 @@ import * as userServices from "../services/user.service";
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
+        console.log("user req.body", req.body);
         const foundUser = await userServices.login(req.body);
         console.log("found user", foundUser.token);
         res.status(200).send(foundUser);
