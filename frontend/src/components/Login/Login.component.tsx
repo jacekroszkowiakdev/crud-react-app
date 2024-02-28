@@ -41,6 +41,9 @@ export const Login: React.FC<{
             }
 
             setLoggedIn(true);
+            if (loggedIn) {
+                handleNavigateHome();
+            }
             console.log("Logged in successfully!");
         } catch (error) {
             console.error("An error occurred during login:", error);
