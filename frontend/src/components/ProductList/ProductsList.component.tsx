@@ -106,11 +106,11 @@ export const ProductList: React.FC<{ products: Product[] }> = ({
             <div className="check-bikes-or-favorites">
                 {savedFavoriteProducts &&
                 JSON.parse(savedFavoriteProducts).length > 0 ? (
-                    <>
+                    <h3>
                         <button onClick={handleShowFavorites}>
                             Check your favorites
                         </button>
-                    </>
+                    </h3>
                 ) : (
                     <h3>Check The Bikes</h3>
                 )}
