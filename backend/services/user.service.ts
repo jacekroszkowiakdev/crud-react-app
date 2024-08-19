@@ -30,9 +30,6 @@ export async function login(
         if (!foundUser) {
             throw new Error("Username incorrect");
         }
-
-        console.log("typed password: ", user.password);
-        console.log("db password: ", foundUser.password);
         const isMatch = bcrypt.compareSync(user.password, foundUser.password);
 
         if (isMatch) {

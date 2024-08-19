@@ -13,29 +13,16 @@ const UserSchema: mongoose.Schema<IUserDocument> = new mongoose.Schema({
     password: { type: String },
 });
 
-UserSchema.pre("save", async function (next) {
-    const user = this;
-    console.log("this: ", user);
+UserSchema.pre("save", async function save(next) {
     const SALT_WORK_FACTOR = 10;
-
-    // only hash the password if it has been modified (or is new)
-    if (!user.isModified("password")) return next();
-
-    // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-        if (err) return next(err);
-
-        // hash the password using new salt
-        bcrypt.hash(user.password, salt, function (err, hash) {
-            if (err) return next(err);
-            console.log("hash: ", hash);
-            // override the cleartext password with the hashed one
-            user.password = hash;
-            console.log("schema password check: ", user.password);
-            console.log("this after hash: ", user);
-            next();
-        });
-    });
+    if (!this.isModified("password")) return next();
+    try {
+        const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+        this.password = await bcrypt.hash(this.password, salt);
+        return next();
+    } catch (err) {
+        return next(err);
+    }
 });
 
 export const UserModel = mongoose.model<IUserDocument>("User", UserSchema);
